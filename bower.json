@@ -1,0 +1,24 @@
+{
+  "name": "avam-web",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Aryadi"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vickykatoch/avam-web",
+  "moduleType": [
+    "amd"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "bootstrap": "~3.3.6"
+  }
+}

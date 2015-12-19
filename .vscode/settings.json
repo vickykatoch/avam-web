@@ -1,0 +1,12 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "node_modules" : true,
+        "modules/**/*.js" : true
+        //"typings" : true
+    },
+    "editor.fontFamily": "Consolas",
+    "editor.fontSize": 20
+}
