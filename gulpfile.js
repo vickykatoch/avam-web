@@ -17,14 +17,15 @@ gulp.task('clean', function(cb){
     del(['dist'], cb);
 });
 
-gulp.task('build',['clean', 'compile:js'], function(){
+gulp.task('build',['clean', 'compile:js','copy:css'], function(){
     return gulp.src(gulpConfig.jsFilePath);
 });
 
 gulp.task('watch', function() {
     var files = [
           gulpConfig.tsAppSourceFiles,
-          gulpConfig.tsHeaderSourceFile
+          gulpConfig.tsHeaderSourceFile,
+          gulpConfig.headerCssSourceFiles
           //gulpConfig.cssPath
     ];
     gulp.watch(files, ['build']);
@@ -52,7 +53,13 @@ gulp.task('compile:ts', function(){
            }))
         .pipe(gulp.dest(gulpConfig.outputPath));
 });
-
+gulp.task('copy:css', function(){
+    var sourceFiles = [ gulpConfig.headerCssSourceFiles
+        
+    ];
+    return gulp.src(sourceFiles)
+        .pipe(gulp.dest(gulpConfig.outputPath));
+})
 // gulp.task('header-compile:tcache', function(){
 //     //console.log('Module : ' + gulpConfig.moduleName);
 //     return gulp.src(gulpConfig.headerTemplatePath)

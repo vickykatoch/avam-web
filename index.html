@@ -4,34 +4,41 @@
 
 <head>
     <title>AVAM Web</title>
-    
+
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="dist/avam-header.css">
+    <link rel="stylesheet" href="app/assets/styles/app.css">
 </head>
+
 <body class="container-fluid">
-    
-    <avam-header></avam-header>
-    
-    
+
+    <avam-header 
+        logo="app/assets/images/logo.jpg"
+        title="AVAM Web"
+        sub-title="An AngularJS UI Framework"></avam-header>
+
+
     <!--  VENDOR FILES [STARTS HERE]-->
     <scrip src="lib/jquery/dist/jquery.js"></scrip>
     <script src="lib/angular/angular.js"></script>
-    
+
     <!--  VENDOR FILES [ENDS HERE]-->
-    
-    
+
+
     <!--  APPLICATION FILES [STARTS HERE]-->
     <!-- HEADER FILES [STARTS HERE]-->
     <!--<script src="modules/avam-header/avamHeader.module.js"></script>
     <script src="modules/avam-header/avamHeader.directive.js"></script>-->
     <script src="dist/avam-header.js"></script>
-    
+
     <!-- HEADER FILES [ENDS HERE]-->
-    
-    
+
+
     <script src="app/app.js"></script>
-    
-    
-    
+
+
+
     <!--  APPLICATION FILES [ENDS HERE]-->
 </body>
+
 </html>

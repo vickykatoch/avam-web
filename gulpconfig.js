@@ -13,7 +13,7 @@ var GulpConfig = (function () {
          this.jsFilePath = "./dist/*.js"; //Doing nothing
         this.libraryTypeScriptDefinitions = './typings/**/*.ts';
         
-        
+        this.headerCssSourceFiles = './modules/avam-header/*.css';
         // this.typeScriptSourceFiles = './src/**/*.ts';
         // 
         // this.outputFile="avam-menu.js";

@@ -1,0 +1,42 @@
+.avam-header-bar{
+    background-color: #fff;
+    padding: 5px 20px 5px 5px;
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: #000;
+}
+.avam-logo{
+    height: 50px;
+    width:50px;
+    vertical-align: top;
+    display: inline-block;
+}
+.avam-title-area{
+     display: inline-block;
+}
+.avam-logo-area{
+   
+}
+.avam-title{
+    font-size:1.2em;
+    font-weight: bold;
+}
+.avam-subtitle{
+    margin-top:-6px;
+    font-style: italic;
+}
+.avam-menu-btn{
+    margin-top: 8px;
+}
+.avam-menu-sm-btn{
+    display: none;
+}
+@media screen and (max-width: 768px){
+    .avam-menu-btn{
+        display: none;
+    }
+    .avam-menu-sm-btn{
+        display: inline-block;
+        margin-top: 8px;
+    }
+}
