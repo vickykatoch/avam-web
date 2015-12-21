@@ -7,65 +7,108 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     del = require('del'),
     minifyCss = require('gulp-minify-css'),
+    runSequence = require('run-sequence'),
     gulpConfig = new Config();
     
 
-
-
-
-gulp.task('clean', function(cb){
-    del(['dist'], cb);
+/*********COMMON  [STARTS HERE]******* */
+gulp.task('clean', function(){
+    return del(['dist']);
 });
-
-gulp.task('build',['clean', 'compile:js','copy:css'], function(){
-    return gulp.src(gulpConfig.jsFilePath);
-});
-
-gulp.task('watch', function() {
+gulp.task('watch', function(){
     var files = [
-          gulpConfig.tsAppSourceFiles,
-          gulpConfig.tsHeaderSourceFile,
-          gulpConfig.headerCssSourceFiles
-          //gulpConfig.cssPath
+          gulpConfig.Header.tsSourceFiles,
+          gulpConfig.Header.cssSourceFiles,
+          gulpConfig.Menu.tsSourceFiles,
+          gulpConfig.Menu.cssSourceFiles,
     ];
-    gulp.watch(files, ['build']);
+    gulp.watch(files, ['build-all']);
 });
 
 
-gulp.task('compile:js',['compile:ts'], function () {
-    //'compile:tcache'
-    return gulp
-            .src(gulpConfig.jsFilePath)
-            .pipe(angularFilesort())
-            //.pipe(uglify())
-            .pipe(concat(gulpConfig.tsHeaderDistFile))            
-            .pipe(gulp.dest(gulpConfig.outputPath));                
-});
-
-gulp.task('compile:ts', function(){
-    var sourceFiles = [
-        gulpConfig.tsHeaderSourceFile,
-        gulpConfig.libraryTypeScriptDefinitions
-    ];
-    return gulp.src(sourceFiles)
-        .pipe(ts({
-            noImplicitAny: true
-           }))
-        .pipe(gulp.dest(gulpConfig.outputPath));
-});
-gulp.task('copy:css', function(){
-    var sourceFiles = [ gulpConfig.headerCssSourceFiles
-        
-    ];
-    return gulp.src(sourceFiles)
-        .pipe(gulp.dest(gulpConfig.outputPath));
+gulp.task('build-all',['clean'], function(cb){
+    runSequence(['build-header', 'build-menu'],cb);
 })
-// gulp.task('header-compile:tcache', function(){
-//     //console.log('Module : ' + gulpConfig.moduleName);
-//     return gulp.src(gulpConfig.headerTemplatePath)
-//             .pipe(templateCache({
-//                 root : 'src/',
-//                 module : gulpConfig.moduleName
-//             }))
-//             .pipe(gulp.dest(gulpConfig.outputPath));       
-// });
+
+/*********COMMON  [ENDS HERE]******* */
+
+/*********AVAM-HEADER [STARTS HERE]******* */
+gulp.task('header-css', function(){
+    return gulp.src(gulpConfig.Header.cssSourceFiles)
+                        .pipe(concat(gulpConfig.Header.outputCSSFileName))        
+                        .pipe(gulp.dest(gulpConfig.Common.outputPath));
+});
+gulp.task('header-ts', function(){
+    var sourceFiles = [
+        gulpConfig.Header.tsSourceFiles,
+        gulpConfig.Common.libraryTypeScriptDefinitions
+    ];
+    return gulp.src(sourceFiles)
+                        .pipe(ts({
+                            noImplicitAny: true
+                        }))
+                        .pipe(gulp.dest(gulpConfig.Header.sourcePath));
+});
+gulp.task('header-tcache', function(){
+    var sourcePath = gulpConfig.Header.sourcePath + "*.html";
+    //del([gulpConfig.Header.sourcePath + 'template.js']);
+    return gulp.src(sourcePath)
+                 .pipe(templateCache({
+                    root : gulpConfig.Header.templateCacheRoot,
+                    module : 'avam-header'
+                }))
+                .pipe(gulp.dest(gulpConfig.Header.sourcePath));   
+                
+});
+
+
+gulp.task('build-header',['header-tcache','header-ts','header-css'], function(){
+    var src = gulpConfig.Header.sourcePath + '*.js';
+    console.log(src);
+    return gulp.src(src)
+                       .pipe(angularFilesort())
+                        //.pipe(uglify())
+                        .pipe(concat(gulpConfig.Header.outputJSFileName))            
+                        .pipe(gulp.dest(gulpConfig.Common.outputPath));      
+});
+
+/*********AVAM-HEADER [ENDS HERE]******* */
+
+/*********AVAM-MENU [STARTS HERE]******* */
+gulp.task('menu-css', function(){
+    return gulp.src(gulpConfig.Menu.cssSourceFiles)
+                        .pipe(concat(gulpConfig.Menu.outputCSSFileName))        
+                        .pipe(gulp.dest(gulpConfig.Common.outputPath));
+});
+
+gulp.task('menu-ts', function(){
+    var sourceFiles = [
+        gulpConfig.Menu.tsSourceFiles,
+        gulpConfig.Common.libraryTypeScriptDefinitions
+    ];
+    return gulp.src(sourceFiles)
+                        .pipe(ts({
+                            noImplicitAny: true
+                        }))
+                        .pipe(gulp.dest(gulpConfig.Menu.sourcePath));
+});
+gulp.task('menu-tcache', function(){
+    var sourcePath = gulpConfig.Menu.sourcePath + "*.html";
+    //del([gulpConfig.Header.sourcePath + 'template.js']);
+    return gulp.src(sourcePath)
+                 .pipe(templateCache({
+                    root : gulpConfig.Menu.templateCacheRoot,
+                    module : 'avam-menu'
+                }))
+                .pipe(gulp.dest(gulpConfig.Menu.sourcePath));   
+                
+});
+gulp.task('build-menu',['menu-tcache','menu-ts','menu-css'], function(){
+    var src = gulpConfig.Menu.sourcePath + '*.js';
+    return gulp.src(src)
+                       .pipe(angularFilesort())
+                        //.pipe(uglify())
+                        .pipe(concat(gulpConfig.Menu.outputJSFileName))            
+                        .pipe(gulp.dest(gulpConfig.Common.outputPath));      
+});
+/*********AVAM-MENU [ENDS HERE]******* */

@@ -1,0 +1,1 @@
+angular.module("avam-menu").run(["$templateCache", function($templateCache) {$templateCache.put("modules/avam-menu/avamMenu.template.html","<div>\n    <h1>Menu File</h1>\n</div>");}]);

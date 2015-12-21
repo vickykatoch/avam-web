@@ -4,8 +4,8 @@
         "**/.git": true,
         "**/.DS_Store": true,
         "node_modules" : true,
-        "modules/**/*.js" : true
-        //"typings" : true
+       "modules/**/avam*.js" : true,
+        "typings" : true
     },
     "editor.fontFamily": "Consolas",
     "editor.fontSize": 20
