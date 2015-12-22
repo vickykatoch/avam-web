@@ -1,0 +1,11 @@
+<li class="avam-group-menu" ng-click="onToggleSubMenu()">
+    <div class="avam-noselect">
+		<i class="fa {{icon}} fa-2x avam-menu-icon"></i>
+		{{label}}
+	</div>
+    <i class="fa fa-chevron-left avam-group-menu-indicator"
+            ng-class="{'fa-chevron-down' : isOpen}"></i>
+</li>
+<div ng-show="isOpen" class="avam-sub-menu avam-fade-in-animation">
+	<ul ng-transclude></ul>
+</div>

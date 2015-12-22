@@ -1,1 +1,1 @@
-angular.module("avamWeb", ['avam-header','avam-menu']);
+angular.module("avamWeb", ['avam-ui']);

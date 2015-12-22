@@ -17,17 +17,20 @@ gulp.task('clean', function(){
 });
 gulp.task('watch', function(){
     var files = [
-          gulpConfig.Header.tsSourceFiles,
-          gulpConfig.Header.cssSourceFiles,
           gulpConfig.Menu.tsSourceFiles,
           gulpConfig.Menu.cssSourceFiles,
+          gulpConfig.UI.tsSourceFiles,
+          gulpConfig.UI.cssSourceFiles,
+          gulpConfig.Header.sourcePath+'*.html',
+          gulpConfig.Menu.sourcePath+'*.html',
+          gulpConfig.UI.sourcePath+'*.html'
     ];
     gulp.watch(files, ['build-all']);
 });
 
 
 gulp.task('build-all',['clean'], function(cb){
-    runSequence(['build-header', 'build-menu'],cb);
+    runSequence(['build-menu', 'build-ui'],cb);
 })
 
 /*********COMMON  [ENDS HERE]******* */
@@ -112,3 +115,42 @@ gulp.task('build-menu',['menu-tcache','menu-ts','menu-css'], function(){
                         .pipe(gulp.dest(gulpConfig.Common.outputPath));      
 });
 /*********AVAM-MENU [ENDS HERE]******* */
+
+/*********AVAM-UI [STARTS HERE]******* */
+gulp.task('ui-css', function(){
+    return gulp.src(gulpConfig.UI.cssSourceFiles)
+                        .pipe(concat(gulpConfig.UI.outputCSSFileName))        
+                        .pipe(gulp.dest(gulpConfig.Common.outputPath));
+});
+
+gulp.task('ui-ts', function(){
+    var sourceFiles = [
+        gulpConfig.UI.tsSourceFiles,
+        gulpConfig.Common.libraryTypeScriptDefinitions
+    ];
+    return gulp.src(sourceFiles)
+                        .pipe(ts({
+                            noImplicitAny: true
+                        }))
+                        .pipe(gulp.dest(gulpConfig.UI.sourcePath));
+});
+gulp.task('ui-tcache', function(){
+    var sourcePath = gulpConfig.UI.sourcePath + "*.html";
+    //del([gulpConfig.Header.sourcePath + 'template.js']);
+    return gulp.src(sourcePath)
+                 .pipe(templateCache({
+                    root : gulpConfig.UI.templateCacheRoot,
+                    module : 'avam-ui'
+                }))
+                .pipe(gulp.dest(gulpConfig.UI.sourcePath));   
+                
+});
+gulp.task('build-ui',['ui-tcache','ui-ts','ui-css'], function(){
+    var src = gulpConfig.UI.sourcePath + '*.js';
+    return gulp.src(src)
+                       .pipe(angularFilesort())
+                        //.pipe(uglify())
+                        .pipe(concat(gulpConfig.UI.outputJSFileName))            
+                        .pipe(gulp.dest(gulpConfig.Common.outputPath));      
+});
+/*********AVAM-UI [ENDS HERE]******* */

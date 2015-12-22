@@ -1,5 +1,82 @@
+.avam-menu-panel{
+	position: relative;
+	background-color: #333;
+	color: #ccc;
+	padding-left: 4px;
+    padding-top: 20px;
+	width: 225px;
+	min-height: 100vh;
+}
+.avam-menu-panel-flex{
+    float:left;
+}
+
+.avam-fade-in-animation {
+    -moz-transition: linear all 0.5s;
+    -o-transition: linear all 0.5s;
+    -webkit-transition: linear all 0.5s;
+    transition: linear all 0.5s;
+}
+.avam-fade-in-animation.ng-hide {
+    opacity: 0;
+}
+.avam-menu-panel ul{
+	padding-left: 0;
+	margin-bottom: 0;
+}
 .avam-menu{
-    width:225px;
-    font-size: 20px;
+    list-style-type: none;
+	/*vertical-align: top;*/
+}
+.avam-menu ul{
+	display: inline;
+	list-style-type: none;
+	padding-left: 0;
+}
+.avam-menu li {
+	line-height: 3em;
+    vertical-align: middle;
+	cursor: pointer;
+}
+.avam-menu-icon{
+	margin-right: 10px;
+    vertical-align: middle;
+}
+.avam-menu-active-indicator{
+    float: right;
+	color: #ddd;
+	margin-right: 0;
+	margin-top: 12px;   
+}
+.avam-group-menu-indicator{
+	float: right;
+	color: #ddd;
+	margin-right: 5px;
+	margin-top: 15px;
+}
+.avam-selectable-item{
+}
+.avam-selectable-item:hover{
+	background-color: #555;
+	color:#fff;
     
+}
+.avam-noselect{
+    display: inline-block;
+    -webkit-touch-callout:none;
+	-webkit-user-select: none;
+	-moz-user-select : none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.avam-sub-menu{
+    padding-left: 15px;
+}
+@media screen and (max-width: 768px){
+   .avam-menu-panel-flex{
+        float:right;
+    }
+    .avam-menu-panel-vs{
+        display: none;
+    }
 }

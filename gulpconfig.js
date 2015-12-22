@@ -32,6 +32,17 @@ var GulpConfig = (function () {
             templateCacheRoot : 'modules/avam-menu/'
         };
         /*********AVAM-MENU [ENDS HERE]******* */
+        
+        /*********AVAM-UI [STARTS HERE]******* */
+        this.UI = {
+            sourcePath : './modules/avam-ui/',
+            tsSourceFiles :  './modules/avam-ui/**/*.ts',
+            cssSourceFiles : './modules/avam-ui/**/*.css',
+            outputJSFileName : 'avam-ui.js',
+            outputCSSFileName : 'avam-ui.css',
+            templateCacheRoot : 'modules/avam-ui/'
+        };
+        /*********AVAM-UI [ENDS HERE]******* */
     }
     return gulpConfig;
 })();

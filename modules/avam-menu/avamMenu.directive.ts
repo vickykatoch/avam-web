@@ -1,4 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
+///<reference path="./avamMenu.controller.ts"/>
 module avam.menu{
     
     class AvamMenuDirective implements ng.IDirective{
@@ -8,7 +9,10 @@ module avam.menu{
         scope = {
             
         };
+        transclude=true;
         templateUrl = 'modules/avam-menu/avamMenu.template.html';
+        controller = AvamMenuController;
+		controllerAs = "vm";
     } 
     
     angular.module("avam-menu").directive("avamMenu", AvamMenuDirective.instance);
