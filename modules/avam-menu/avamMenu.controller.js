@@ -6,8 +6,20 @@ var avam;
     (function (menu) {
         var AvamMenuController = (function () {
             function AvamMenuController(scope, rootScope) {
+                var _this = this;
                 this.scope = scope;
                 this.rootScope = rootScope;
+                $(document).click(function (evt) {
+                    if ($(evt.target).parent().hasClass('avam-group-menu')) {
+                        return;
+                    }
+                    scope.$apply(function () {
+                        _this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
+                            isVisible: false,
+                            target: evt.target
+                        });
+                    });
+                });
             }
             AvamMenuController.prototype.setActiveElement = function (elem) {
                 this.activeElement = elem;

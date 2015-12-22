@@ -13,6 +13,7 @@ var avam;
                 $(window).on('resize.avam', function (evt, args) {
                     _this.scope.$apply(function () {
                         _this.checkWidth();
+                        _this.setViewAreaHeight();
                         _this.broadcastMenuState();
                     });
                 }); //eo$w
@@ -21,11 +22,19 @@ var avam;
                 });
                 scope.$on('AVAM-MENU-VISIBILITY-CHANGED', function (evt, data) {
                     if (_this.canHide) {
-                        _this.isVisible = data.isVisible;
+                        if (data.target) {
+                            var isTrue = $(data.target).hasClass('avam-menu-btn') || $(data.target).parent().hasClass('avam-menu-btn');
+                            if (!isTrue)
+                                _this.isVisible = data.isVisible;
+                        }
+                        else {
+                            _this.isVisible = data.isVisible;
+                        }
                     }
                 });
                 ngTimeout(function () {
                     _this.checkWidth();
+                    _this.setViewAreaHeight();
                     _this.broadcastMenuState();
                 }, 0);
             } //eoctor
@@ -35,10 +44,19 @@ var avam;
                 this.canHide = (width < 768);
             };
             AvamUIController.prototype.broadcastMenuState = function () {
-                this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {});
+                // this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
+                // 	//show: this.isMenuVisible
+                // });
             };
             AvamUIController.prototype.toggleMenu = function () {
                 this.isVisible = !this.isVisible;
+            };
+            AvamUIController.prototype.setViewAreaHeight = function () {
+                var totalHeight = Math.max($(this.ngWin).height(), this.ngWin.innerHeight);
+                var headerHeight = $('.avam-header-bar').outerHeight();
+                var footerHeight = $('.avam-footer').outerHeight();
+                totalHeight = totalHeight - (headerHeight + footerHeight);
+                $('.dynamic-height').css({ 'height': totalHeight });
             };
             AvamUIController.$inject = ['$scope', '$rootScope', '$window', '$timeout'];
             return AvamUIController;

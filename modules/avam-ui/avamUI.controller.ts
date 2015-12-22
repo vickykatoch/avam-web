@@ -22,6 +22,7 @@ module avam.ui{
              $(window).on('resize.avam',(evt: JQueryEventObject, args:any[]):any=>{
                     this.scope.$apply(()=>{
                         this.checkWidth();
+                        this.setViewAreaHeight();
                         this.broadcastMenuState();
                     });
 			 }); //eo$w
@@ -30,12 +31,19 @@ module avam.ui{
 			});
 			scope.$on('AVAM-MENU-VISIBILITY-CHANGED', (evt: ng.IAngularEvent,  data:any):void=>{
                 if(this.canHide){
-                    this.isVisible=data.isVisible;
+                    if(data.target) {
+                        var isTrue = $(data.target).hasClass('avam-menu-btn') || $(data.target).parent().hasClass('avam-menu-btn')
+                        if( !isTrue)
+                            this.isVisible=data.isVisible;        
+                    } else {
+                        this.isVisible=data.isVisible;    
+                    }          
                 }
             });
             
 			ngTimeout(():any=>{
 				this.checkWidth();
+                this.setViewAreaHeight();
 				this.broadcastMenuState();
 			},0);
              
@@ -47,14 +55,21 @@ module avam.ui{
             this.canHide =  (width < 768);
 		}
 		broadcastMenuState():void {
-			this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
-				//show: this.isMenuVisible
-			});
+			// this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
+			// 	//show: this.isMenuVisible
+			// });
 		}
         toggleMenu():void{
             this.isVisible=!this.isVisible;
         }
-         
+         setViewAreaHeight():void{
+             var totalHeight = Math.max($(this.ngWin).height(), this.ngWin.innerHeight);
+             var headerHeight = $('.avam-header-bar').outerHeight();
+             var footerHeight = $('.avam-footer').outerHeight();
+             totalHeight = totalHeight - (headerHeight+footerHeight);
+             
+             $('.dynamic-height').css({'height' : totalHeight} );
+         }
     }
     
 }

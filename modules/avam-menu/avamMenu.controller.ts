@@ -16,6 +16,18 @@ module avam.menu{
         static $inject =['$scope', '$rootScope'];
         constructor(private scope : IAvamMenuScope, private rootScope: ng.IRootScopeService){
             
+            $(document).click((evt: JQueryEventObject):void=>{
+                if ($(evt.target).parent().hasClass('avam-group-menu')){
+							return;
+						}	              
+                        scope.$apply(()=>{
+                            this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED',
+                                {
+                                    isVisible:false,
+                                    target:evt.target
+                                });
+                        });
+            });
         }
         
         setActiveElement(elem: ng.IAugmentedJQuery):void{

@@ -3,9 +3,9 @@
 	background-color: #333;
 	color: #ccc;
 	padding-left: 0;
-    padding-top: 20px;
+    padding-top: 5px;
 	width: 225px;
-	min-height: 100vh;
+    overflow: auto;
 }
 .avam-menu-panel-flex{
     float:left;
