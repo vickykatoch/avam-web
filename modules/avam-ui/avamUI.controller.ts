@@ -15,9 +15,12 @@ module avam.ui{
          public isVisible:boolean;
          public canHide:boolean;
          
-         static $inject =['$scope', '$rootScope', '$window','$timeout'];
+         static $inject =['$scope', '$rootScope', '$window','$timeout','$state'];
          constructor(private scope: IAvamUIScope, private rootScope : ng.IRootScopeService,
-                                private ngWin : ng.IWindowService, private ngTimeout : ng.ITimeoutService){
+                                private ngWin : ng.IWindowService, private ngTimeout : ng.ITimeoutService,
+                                private stateService: ng.ui.IStateService){
+            
+            this.onRouteChanged();
             
              $(window).on('resize.avam',(evt: JQueryEventObject, args:any[]):any=>{
                     this.scope.$apply(()=>{
@@ -57,7 +60,7 @@ module avam.ui{
 		broadcastMenuState():void {
 			// this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
 			// 	//show: this.isMenuVisible
-			// });
+			// });   
 		}
         toggleMenu():void{
             this.isVisible=!this.isVisible;
@@ -69,6 +72,11 @@ module avam.ui{
              totalHeight = totalHeight - (headerHeight+footerHeight);
              
              $('.dynamic-height').css({'height' : totalHeight} );
+         }
+         onRouteChanged():void{
+             this.scope.$on('AVAM-ROUTE-CHANGED', (evt: ng.IAngularEvent,  data:any):void=>{
+                 this.stateService.go(data.route); 
+             });
          }
     }
     

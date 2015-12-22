@@ -36,7 +36,7 @@ var avam;
                 elem.on('click', function (evt) {
                     scope.$apply(function () {
                         controller.setActiveElement(elem);
-                        //controller.setRoute(attributes.route);
+                        controller.setRoute(attributes.route);
                     });
                 });
             };
@@ -101,6 +101,9 @@ var avam;
             };
             AvamMenuController.prototype.setGroupMenuScope = function (groupMenuItemScope) {
                 this.groupMenuScope = groupMenuItemScope;
+            };
+            AvamMenuController.prototype.setRoute = function (route) {
+                this.rootScope.$broadcast('AVAM-ROUTE-CHANGED', { route: route });
             };
             AvamMenuController.$inject = ['$scope', '$rootScope'];
             return AvamMenuController;

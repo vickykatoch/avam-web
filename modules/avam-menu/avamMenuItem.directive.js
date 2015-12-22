@@ -24,7 +24,7 @@ var avam;
                 elem.on('click', function (evt) {
                     scope.$apply(function () {
                         controller.setActiveElement(elem);
-                        //controller.setRoute(attributes.route);
+                        controller.setRoute(attributes.route);
                     });
                 });
             };

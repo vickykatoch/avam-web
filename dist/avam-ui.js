@@ -3,11 +3,11 @@ var avam;
 (function (avam) {
     var ui;
     (function (ui) {
-        angular.module('avam-ui', ['avam-menu']);
+        angular.module('avam-ui', ['ui.router', 'avam-menu']);
     })(ui = avam.ui || (avam.ui = {}));
 })(avam || (avam = {}));
 
-angular.module("avam-ui").run(["$templateCache", function($templateCache) {$templateCache.put("modules/avam-ui/avamUI.template.html","<div class=\"avam-ui\">\n    <div class=\"avam-header-bar\">\n        <div class=\"row\">\n            <div class=\"col-sm-6 avam-logo-area\">\n                <img ng-src=\"{{logo}}\" class=\"avam-logo\" />\n                <div class=\"avam-title-area\">\n                    <p class=\"avam-title\">{{title}}</p>\n                    <p class=\"avam-subtitle\">{{subTitle}}</p>\n                </div>\n                    <button class=\"btn btn-sm btn-danger pull-right avam-menu-btn\" ng-click=\"vm.toggleMenu()\">\n                    <i class=\"fa fa-bars fa-2x\"></i>\n                </button>\n            </div>\n            <div class=\"col-sm-6\">\n                <!--<button class=\"btn btn-sm btn-danger pull-right avam-menu-btn\">\n                    <i class=\"fa fa-bars fa-2x\"></i>\n                </button>-->\n            </div>\n        </div>\n    </div>\n    <div class=\"avam-menu-panel avam-menu-panel-flex dynamic-height\"\n            ng-class=\"{\'avam-menu-panel-vs\' : !vm.isVisible}\">\n        <ng-transclude></ng-transclude>\n    </div>\n    <div class=\"view-area dynamic-height\">\n        <h1>One</h1>\n        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n        \n        <h1>Two</h1>\n        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n        <h1>Three</h1>\n        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n        \n        <h1>Four</h1>\n        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n    </div>\n    \n    <div class=\"avam-footer\">\n    </div>\n</div>");}]);
+angular.module("avam-ui").run(["$templateCache", function($templateCache) {$templateCache.put("modules/avam-ui/avamUI.template.html","<div class=\"avam-ui\">\n    <div class=\"avam-header-bar\">\n        <div class=\"row\">\n            <div class=\"col-sm-6 avam-logo-area\">\n                <img ng-src=\"{{logo}}\" class=\"avam-logo\" />\n                <div class=\"avam-title-area\">\n                    <p class=\"avam-title\">{{title}}</p>\n                    <p class=\"avam-subtitle\">{{subTitle}}</p>\n                </div>\n                    <button class=\"btn btn-sm btn-danger pull-right avam-menu-btn\" ng-click=\"vm.toggleMenu()\">\n                    <i class=\"fa fa-bars fa-2x\"></i>\n                </button>\n            </div>\n            <div class=\"col-sm-6\">\n                <!--<button class=\"btn btn-sm btn-danger pull-right avam-menu-btn\">\n                    <i class=\"fa fa-bars fa-2x\"></i>\n                </button>-->\n            </div>\n        </div>\n    </div>\n    <div class=\"avam-menu-panel avam-menu-panel-flex dynamic-height\"\n            ng-class=\"{\'avam-menu-panel-vs\' : !vm.isVisible}\">\n        <ng-transclude></ng-transclude>\n    </div>\n    <div class=\"view-area dynamic-height\" ui-view>\n       \n    </div>\n    \n    <div class=\"avam-footer\">\n    </div>\n</div>");}]);
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="./avamUI.controller.ts"/>
 var avam;
@@ -41,12 +41,14 @@ var avam;
     var ui;
     (function (ui) {
         var AvamUIController = (function () {
-            function AvamUIController(scope, rootScope, ngWin, ngTimeout) {
+            function AvamUIController(scope, rootScope, ngWin, ngTimeout, stateService) {
                 var _this = this;
                 this.scope = scope;
                 this.rootScope = rootScope;
                 this.ngWin = ngWin;
                 this.ngTimeout = ngTimeout;
+                this.stateService = stateService;
+                this.onRouteChanged();
                 $(window).on('resize.avam', function (evt, args) {
                     _this.scope.$apply(function () {
                         _this.checkWidth();
@@ -83,7 +85,7 @@ var avam;
             AvamUIController.prototype.broadcastMenuState = function () {
                 // this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
                 // 	//show: this.isMenuVisible
-                // });
+                // });   
             };
             AvamUIController.prototype.toggleMenu = function () {
                 this.isVisible = !this.isVisible;
@@ -95,7 +97,13 @@ var avam;
                 totalHeight = totalHeight - (headerHeight + footerHeight);
                 $('.dynamic-height').css({ 'height': totalHeight });
             };
-            AvamUIController.$inject = ['$scope', '$rootScope', '$window', '$timeout'];
+            AvamUIController.prototype.onRouteChanged = function () {
+                var _this = this;
+                this.scope.$on('AVAM-ROUTE-CHANGED', function (evt, data) {
+                    _this.stateService.go(data.route);
+                });
+            };
+            AvamUIController.$inject = ['$scope', '$rootScope', '$window', '$timeout', '$state'];
             return AvamUIController;
         })();
         ui.AvamUIController = AvamUIController;

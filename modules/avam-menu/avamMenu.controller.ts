@@ -8,6 +8,7 @@ module avam.menu{
         setActiveElement(elem: ng.IAugmentedJQuery):void;
         getActiveElement() : ng.IAugmentedJQuery;	
         setGroupMenuScope(groupMenuItemScope: IGroupMenuItemScope):void;
+        setRoute(route:any):void;
     }
     
     export class AvamMenuController implements IAvamMenuController{
@@ -39,6 +40,9 @@ module avam.menu{
 		}
         setGroupMenuScope(groupMenuItemScope: IGroupMenuItemScope):void{
             this.groupMenuScope=groupMenuItemScope;
+        }
+        setRoute(route:any):void{
+            this.rootScope.$broadcast('AVAM-ROUTE-CHANGED',{route:route});
         }
     }
     

@@ -31,9 +31,8 @@ module avam.menu{
 			         };          
                      elem.on('click',(evt:UIEvent):void=>{
                         scope.$apply(():void=>{
-                            controller.setActiveElement(elem);
-                            
-                            //controller.setRoute(attributes.route);
+                            controller.setActiveElement(elem);                 
+                            controller.setRoute(attributes.route);
                         });
                     });
                 }

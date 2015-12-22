@@ -4,12 +4,14 @@ var avam;
     var ui;
     (function (ui) {
         var AvamUIController = (function () {
-            function AvamUIController(scope, rootScope, ngWin, ngTimeout) {
+            function AvamUIController(scope, rootScope, ngWin, ngTimeout, stateService) {
                 var _this = this;
                 this.scope = scope;
                 this.rootScope = rootScope;
                 this.ngWin = ngWin;
                 this.ngTimeout = ngTimeout;
+                this.stateService = stateService;
+                this.onRouteChanged();
                 $(window).on('resize.avam', function (evt, args) {
                     _this.scope.$apply(function () {
                         _this.checkWidth();
@@ -46,7 +48,7 @@ var avam;
             AvamUIController.prototype.broadcastMenuState = function () {
                 // this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {
                 // 	//show: this.isMenuVisible
-                // });
+                // });   
             };
             AvamUIController.prototype.toggleMenu = function () {
                 this.isVisible = !this.isVisible;
@@ -58,7 +60,13 @@ var avam;
                 totalHeight = totalHeight - (headerHeight + footerHeight);
                 $('.dynamic-height').css({ 'height': totalHeight });
             };
-            AvamUIController.$inject = ['$scope', '$rootScope', '$window', '$timeout'];
+            AvamUIController.prototype.onRouteChanged = function () {
+                var _this = this;
+                this.scope.$on('AVAM-ROUTE-CHANGED', function (evt, data) {
+                    _this.stateService.go(data.route);
+                });
+            };
+            AvamUIController.$inject = ['$scope', '$rootScope', '$window', '$timeout', '$state'];
             return AvamUIController;
         })();
         ui.AvamUIController = AvamUIController;

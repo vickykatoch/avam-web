@@ -48,7 +48,8 @@ gulp.task('header-ts', function(){
     ];
     return gulp.src(sourceFiles)
                         .pipe(ts({
-                            noImplicitAny: true
+                            noImplicitAny: true,
+                            removeComments:true
                         }))
                         .pipe(gulp.dest(gulpConfig.Header.sourcePath));
 });
@@ -91,7 +92,8 @@ gulp.task('menu-ts', function(){
     ];
     return gulp.src(sourceFiles)
                         .pipe(ts({
-                            noImplicitAny: true
+                            noImplicitAny: true,
+                            removeComments:true
                         }))
                         .pipe(gulp.dest(gulpConfig.Menu.sourcePath));
 });
@@ -130,7 +132,8 @@ gulp.task('ui-ts', function(){
     ];
     return gulp.src(sourceFiles)
                         .pipe(ts({
-                            noImplicitAny: true
+                            noImplicitAny: true,
+                            removeComments:true
                         }))
                         .pipe(gulp.dest(gulpConfig.UI.sourcePath));
 });
@@ -154,3 +157,36 @@ gulp.task('build-ui',['ui-tcache','ui-ts','ui-css'], function(){
                         .pipe(gulp.dest(gulpConfig.Common.outputPath));      
 });
 /*********AVAM-UI [ENDS HERE]******* */
+
+/*********APPLICATION  [STARTS HERE]******* */
+gulp.task('watch-app',function(){
+     var files = [
+        gulpConfig.App.tsSourceFiles
+     ];
+     gulp.watch(files, ['build-app']);
+});
+
+gulp.task('build-app',['clean-app'], function(cb){
+    runSequence(['app-ts'],cb);
+})
+
+gulp.task('clean-app', function(){
+    return del([gulpConfig.App.outputPath]);
+});
+
+
+gulp.task('app-ts', function(){
+    var sourceFiles = [
+        gulpConfig.App.tsSourceFiles,
+        gulpConfig.Common.libraryTypeScriptDefinitions
+    ];
+    
+    return gulp.src(sourceFiles)
+                        .pipe(ts({
+                            noImplicitAny: true,
+                            removeComments:true
+                        }))
+                        .pipe(gulp.dest(gulpConfig.App.outputPath));
+});
+
+/*********APPLICATION  [ENDS HERE]******* */

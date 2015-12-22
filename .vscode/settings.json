@@ -5,7 +5,8 @@
         "**/.DS_Store": true,
         "node_modules" : true,
        "modules/**/avam*.js" : true,
-        "typings" : true
+        "typings" : true,
+        "lib":true
     },
     "editor.fontFamily": "Consolas",
     "editor.fontSize": 20

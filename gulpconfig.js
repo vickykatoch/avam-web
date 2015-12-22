@@ -9,6 +9,13 @@ var GulpConfig = (function () {
         };
          /*********COMMON-VARS [ENDS HERE]******* */
          
+         /*********APPLICATION  [STARTS HERE]******* */
+        this.App = {
+            tsSourceFiles :  './app/**/*.ts',
+            outputPath : './app/dist'
+        };
+         /*********APPLICATION [ENDS HERE]******* */
+         
          
         /*********AVAM-HEADER [STARTS HERE]******* */
         this.Header = {

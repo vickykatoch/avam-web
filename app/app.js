@@ -1,1 +1,0 @@
-angular.module("avamWeb", ['avam-ui']);
