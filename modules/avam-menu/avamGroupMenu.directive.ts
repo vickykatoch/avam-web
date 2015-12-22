@@ -39,7 +39,6 @@ module avam.menu{
 						 top = elem.parents('.avam-menu-panel').height();
                         $('.avam-sub-menu').css({ 'left': pos.left, 'top': top });
                  }
-                 
             }
     }
     

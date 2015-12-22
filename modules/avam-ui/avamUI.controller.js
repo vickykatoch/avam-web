@@ -19,6 +19,11 @@ var avam;
                 scope.$on('destroy', function () {
                     $(window).off('resize.avam');
                 });
+                scope.$on('AVAM-MENU-VISIBILITY-CHANGED', function (evt, data) {
+                    if (_this.canHide) {
+                        _this.isVisible = data.isVisible;
+                    }
+                });
                 ngTimeout(function () {
                     _this.checkWidth();
                     _this.broadcastMenuState();
@@ -27,6 +32,7 @@ var avam;
             AvamUIController.prototype.checkWidth = function () {
                 var width = Math.max($(this.ngWin).width(), this.ngWin.innerWidth);
                 this.isVisible = (width >= 768);
+                this.canHide = (width < 768);
             };
             AvamUIController.prototype.broadcastMenuState = function () {
                 this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', {});

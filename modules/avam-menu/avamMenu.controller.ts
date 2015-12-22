@@ -20,6 +20,7 @@ module avam.menu{
         
         setActiveElement(elem: ng.IAugmentedJQuery):void{
 			this.activeElement=elem;
+            this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED',{isVisible:false});
 		}
 		getActiveElement() : ng.IAugmentedJQuery{
 			return this.activeElement;

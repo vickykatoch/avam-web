@@ -82,6 +82,7 @@ var avam;
             }
             AvamMenuController.prototype.setActiveElement = function (elem) {
                 this.activeElement = elem;
+                this.rootScope.$broadcast('AVAM-MENU-VISIBILITY-CHANGED', { isVisible: false });
             };
             AvamMenuController.prototype.getActiveElement = function () {
                 return this.activeElement;
